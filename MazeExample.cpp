@@ -23,7 +23,34 @@ using namespace std;
 
 
 void SolveMaze(int row, int col, char maze[][100], int rowSz, int colSz, bool& foundEnd, string& finaldir, string currDir) {
+	if(foundEnd) {
+		return;
+	}
+	// row and col is where we are standing
+	if(row<0||col<0||row> rowSz||col> colSz) {
 
+		return;
+	}
+	if(maze[row][col] == 'F') {
+		foundEnd = true;
+		finaldir = currDir;
+		return;
+	}
+	if (maze[row][col] == '^') {
+		return;
+	}
+	if (maze[row][col] == '@') {
+		return;
+	}
+	maze[row][col] = '^';
+	SolveMaze(row-1,col,maze,rowSz,colSz,foundEnd, finaldir, currDir+"U ");//up
+	SolveMaze(row+1,col,maze,rowSz,colSz,foundEnd, finaldir, currDir+"D ");//down
+	SolveMaze(row,col-1,maze,rowSz,colSz,foundEnd, finaldir, currDir+"L ");//left
+	SolveMaze(row,col+1,maze,rowSz,colSz,foundEnd, finaldir, currDir+"R ");//right
+
+	if(!foundEnd) {
+		maze[row][col] = ' ';
+	}
 }
 
 int main()
